@@ -61,9 +61,13 @@ class BOJ(Infos):
             id = self.user_id.split('@')[0]
         problem_list_url = PROBLEM_URL + id
         driver.get(problem_list_url)
-        datas = driver.find_elements_by_css_selector('body > div.wrapper > div.container.content > div.row > div:nth-child(2) > div > div.col-md-9 > div:nth-child(1) > div.panel-body')
-        for data in datas:
-            print(data)
+        time.sleep(4)
+        #u-solved
+        problem_list = []
+        correct_count = int(driver.find_element_by_css_selector("#u-solved").text)
+        for i in range(1,correct_count+1):
+            problem_list.append(driver.find_element_by_css_selector(f'div.panel-body > a:nth-child({i})').get_attribute('href'))
+        print(problem_list)
         
         
     def clipboard_input(self, driver, user_xpath, user_input):
@@ -89,11 +93,12 @@ class BOJ(Infos):
     def crawling(self):
         driver = self.set_selenium_options()
         driver.implicitly_wait(2)
-        # #driver.get(LOGIN_URL)
-        # driver.implicitly_wait(2)
+        #driver.get(LOGIN_URL)
+        driver.implicitly_wait(2)
+        #self.login_boj(driver)
         print(self.get_problem_list(driver))
 
-        #self.login_boj(driver)
+        #
 
 
         
